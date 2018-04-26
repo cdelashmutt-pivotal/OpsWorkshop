@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System.IO;
 
-namespace RabbitMQ
+namespace TestApp
 {
     public class Program
     {

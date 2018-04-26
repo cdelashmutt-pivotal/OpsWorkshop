@@ -2,4 +2,11 @@
     ViewData["Title"] = "Receive Data";
 }
 <h2>@ViewData["Title"].</h2>
-<h3>Message=@ViewData["Message"]</h3>
+@if (!(bool)ViewData["rabbitEnabled"])
+{
+    <h3 style="color: red">RabbitMQ service not bound</h3>
+}
+else
+{
+    <h3>Message=@ViewData["Message"]</h3>
+}

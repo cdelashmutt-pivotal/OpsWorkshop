@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 
-namespace RabbitMQ
+namespace TestApp
 {
     public class Startup
     {

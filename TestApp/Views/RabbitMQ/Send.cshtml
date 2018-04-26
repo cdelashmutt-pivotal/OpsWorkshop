@@ -6,8 +6,12 @@
 <form asp-controller="RabbitMQ"
       asp-action="Send"
       method="post">
+    @if(!(bool)ViewData["rabbitEnabled"])
+    {
+        <div style="color: red; font-weight:bold">RabbitMQ service not bound</div>
+    }
     Message:
-    <input type="text" name="Message" value="" />
+    <input type="text" name="Message" value="" disabled="@(!(bool)ViewData["rabbitEnabled"])"/>
     <br />
-    <input type="submit" value="Send" />
+    <input type="submit" value="Send" disabled="@(!(bool)ViewData["rabbitEnabled"])"/>
 </form>

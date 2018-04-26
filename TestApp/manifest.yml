@@ -1,7 +1,7 @@
 ---
 applications:
-- name: rabbitmq-connector
+- name: TestApp
+  random-route: true
+  path: bin\Debug\netcoreapp2.0\ubuntu.14.04-x64\publish
   env:
     ASPNETCORE_ENVIRONMENT: Development
-  services:
-   - myRabbitMQService

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using System.Net.Security;
 
-namespace RabbitMQ.Controllers
+namespace TestApp.Controllers
 {
     public class RabbitMQController : Controller
     {
         ConnectionFactory _rabbitConnection;
+        bool rabbitEnabled = true;
 
         public RabbitMQController([FromServices] ConnectionFactory rabbitConnection)
         {
@@ -19,30 +20,39 @@ namespace RabbitMQ.Controllers
                 opt.Version = SslProtocols.Tls | SslProtocols.Tls11 | SslProtocols.Tls12;
 
                 // Only needed if want to disable certificate validations
-                opt.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateChainErrors | 
+                opt.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateChainErrors |
                     SslPolicyErrors.RemoteCertificateNameMismatch | SslPolicyErrors.RemoteCertificateNotAvailable;
+            }
+            if (_rabbitConnection.HostName != null && _rabbitConnection.HostName.Trim() != "")
+            {
+                rabbitEnabled = false;
             }
         }
 
-    
+
         public IActionResult Receive()
         {
-            using (var connection = _rabbitConnection.CreateConnection())
-            using (var channel = connection.CreateModel())
+            if(rabbitEnabled)
             {
-                CreateQueue(channel);
-                var data = channel.BasicGet("rabbit-test", true);
-                if (data != null) {
-                    ViewData["message"] = Encoding.UTF8.GetString(data.Body);
+                using (var connection = _rabbitConnection.CreateConnection())
+                using (var channel = connection.CreateModel())
+                {
+                    CreateQueue(channel);
+                    var data = channel.BasicGet("rabbit-test", true);
+                    if (data != null)
+                    {
+                        ViewData["message"] = Encoding.UTF8.GetString(data.Body);
+                    }
                 }
             }
+            ViewData["rabbitEnabled"] = rabbitEnabled;
 
             return View();
         }
 
         public IActionResult Send(string message)
         {
-            if (message != null && message != "") {
+            if (rabbitEnabled && message != null && message != "") {
                 using (var connection = _rabbitConnection.CreateConnection())
                 using (var channel = connection.CreateModel())
                 {
@@ -54,6 +64,8 @@ namespace RabbitMQ.Controllers
                                          body: body);
                 }
             }
+            ViewData["rabbitEnabled"] = rabbitEnabled;
+
             return View();
         }
 

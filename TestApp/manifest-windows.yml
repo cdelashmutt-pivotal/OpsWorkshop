@@ -1,10 +1,10 @@
 ---
 applications:
-- name: rabbitmq-connector
+- name: TestApp
+  random-route: true
+  path: bin\Debug\net461\win81-x64\publish
   memory: 512M
   stack: windows2012R2
-  command: .\RabbitMQ
+  command: .\TestApp
   env:
     ASPNETCORE_ENVIRONMENT: Development
-  services:
-    - myRabbitMQService
