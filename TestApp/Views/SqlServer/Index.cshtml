@@ -1,0 +1,18 @@
+﻿@using TestApp
+@model IEnumerable<TestData>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if ((bool)ViewData["sqlEnabled"])
+{
+    <h2>Test data from Sql Server:</h2>
+    <ul>
+        @foreach (var td in Model)
+        {
+            <li>@td.Id: @td.Data</li>
+        }
+    </ul>
+} else {
+    <h2 style="color: red">Sql Server not bound</h2>
+}

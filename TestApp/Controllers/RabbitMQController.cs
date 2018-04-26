@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using System.Net.Security;
+using Microsoft.Extensions.Logging;
 
 namespace TestApp.Controllers
 {
@@ -11,7 +12,7 @@ namespace TestApp.Controllers
         ConnectionFactory _rabbitConnection;
         bool rabbitEnabled = true;
 
-        public RabbitMQController([FromServices] ConnectionFactory rabbitConnection)
+        public RabbitMQController([FromServices] ConnectionFactory rabbitConnection, [FromServices] ILogger<RabbitMQController> logger)
         {
             _rabbitConnection = rabbitConnection;
             SslOption opt = _rabbitConnection.Ssl;
@@ -23,7 +24,8 @@ namespace TestApp.Controllers
                 opt.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateChainErrors |
                     SslPolicyErrors.RemoteCertificateNameMismatch | SslPolicyErrors.RemoteCertificateNotAvailable;
             }
-            if (_rabbitConnection.HostName != null && _rabbitConnection.HostName.Trim() != "")
+            logger.LogDebug("RabbitMQ Connection: " + _rabbitConnection.ToString());
+            if (_rabbitConnection.Uri == null)
             {
                 rabbitEnabled = false;
             }

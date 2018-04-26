@@ -1,0 +1,23 @@
+﻿<h1>This is instance @ViewData["instanceNumber"]</h1>
+<form>
+    <button id="killButton" style="background-color:red; color: white;">KILL SWITCH ENGAGE!</button>
+</form>
+
+@section Scripts {
+<script>
+        $(document).ready(function () {
+            $("#killButton").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Kill/Kill",
+                    success: function (result) {
+                        alert('Kill Submitted');
+                    },
+                    error: function (result) {
+                        alert('Kill Submitted');
+                    }
+                });
+            });
+        });
+</script>
+}

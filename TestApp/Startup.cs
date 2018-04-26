@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+using Steeltoe.CloudFoundry.Connector.SqlServer.EFCore;
+using System.Linq;
 
 namespace TestApp
 {
@@ -18,8 +21,19 @@ namespace TestApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .ConfigureApplicationPartManager(manager =>
+                {
+                    var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
+                    manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
+                    manager.FeatureProviders.Add(new ReferencesMetadataReferenceFeatureProvider());
+                });
+
             services.AddRabbitMQConnection(Configuration);
+
+            // Add Context and use SqlServer as provider ... provider will be configured from VCAP_ info
+            services.AddDbContext<TestContext>(options => options.UseSqlServer(Configuration));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +54,7 @@ namespace TestApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=RabbitMQ}/{action=Send}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
