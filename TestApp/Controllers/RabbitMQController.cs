@@ -24,8 +24,8 @@ namespace TestApp.Controllers
                 opt.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateChainErrors |
                     SslPolicyErrors.RemoteCertificateNameMismatch | SslPolicyErrors.RemoteCertificateNotAvailable;
             }
-            logger.LogDebug("RabbitMQ Connection: " + _rabbitConnection.ToString());
-            if (_rabbitConnection.Uri == null)
+            logger.LogDebug("RabbitMQ Connection: " + _rabbitConnection.Uri.ToString());
+            if (_rabbitConnection.Uri == null || _rabbitConnection.Uri.ToString() == "amqp://127.0.0.1:5672/")
             {
                 rabbitEnabled = false;
             }
