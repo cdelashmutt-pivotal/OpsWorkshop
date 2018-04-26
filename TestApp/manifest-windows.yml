@@ -8,4 +8,4 @@ applications:
   health-check-type: http
   command: .\TestApp
   env:
-    ASPNETCORE_ENVIRONMENT: Development
+    ASPNETCORE_ENVIRONMENT: Production

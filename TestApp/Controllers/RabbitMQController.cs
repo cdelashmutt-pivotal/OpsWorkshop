@@ -11,10 +11,13 @@ namespace TestApp.Controllers
     {
         ConnectionFactory _rabbitConnection;
         bool rabbitEnabled = true;
+        ILogger<RabbitMQController> _logger;
 
         public RabbitMQController([FromServices] ConnectionFactory rabbitConnection, [FromServices] ILogger<RabbitMQController> logger)
         {
             _rabbitConnection = rabbitConnection;
+            _logger = logger;
+
             SslOption opt = _rabbitConnection.Ssl;
             if (opt != null && opt.Enabled)
             {
@@ -24,7 +27,7 @@ namespace TestApp.Controllers
                 opt.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateChainErrors |
                     SslPolicyErrors.RemoteCertificateNameMismatch | SslPolicyErrors.RemoteCertificateNotAvailable;
             }
-            logger.LogDebug("RabbitMQ Connection: " + _rabbitConnection.Uri.ToString());
+            _logger.LogDebug("RabbitMQ Connection: " + _rabbitConnection.Uri.ToString());
             if (_rabbitConnection.Uri == null || _rabbitConnection.Uri.ToString() == "amqp://127.0.0.1:5672/")
             {
                 rabbitEnabled = false;
@@ -34,6 +37,7 @@ namespace TestApp.Controllers
 
         public IActionResult Receive()
         {
+            _logger.LogTrace("Calling RabbitMQController.Recieve");
             if(rabbitEnabled)
             {
                 using (var connection = _rabbitConnection.CreateConnection())
@@ -48,12 +52,14 @@ namespace TestApp.Controllers
                 }
             }
             ViewData["rabbitEnabled"] = rabbitEnabled;
+            _logger.LogTrace("Returning View for RabbitMQController.Recieve");
 
             return View();
         }
 
         public IActionResult Send(string message)
         {
+            _logger.LogTrace("Calling RabbitMQController.Send with message: " + message);
             if (rabbitEnabled && message != null && message != "") {
                 using (var connection = _rabbitConnection.CreateConnection())
                 using (var channel = connection.CreateModel())
@@ -67,6 +73,7 @@ namespace TestApp.Controllers
                 }
             }
             ViewData["rabbitEnabled"] = rabbitEnabled;
+            _logger.LogTrace("Returning view for RabbitMQController.Send");
 
             return View();
         }

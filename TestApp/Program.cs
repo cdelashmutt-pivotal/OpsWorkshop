@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Steeltoe.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -31,7 +32,8 @@ namespace TestApp
                 .ConfigureLogging((context, builder) =>
                 {
                     builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                    builder.AddConsole();
+                    // Add SteelToe Dynamic Logging Provider
+                    builder.AddDynamicConsole();
                 })
                 .Build();
 
