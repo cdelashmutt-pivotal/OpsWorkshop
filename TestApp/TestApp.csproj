@@ -19,11 +19,14 @@
     <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
     <PackageReference Include="Steeltoe.CloudFoundry.Connector.EFCore" Version="2.0.0" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.0.0" />
-    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version= "2.0.0"/>
-    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Version= "2.0.0"/>
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.0.0" />
+    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="scripts\">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Folder>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\Kill\" />

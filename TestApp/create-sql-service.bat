@@ -1,2 +1,0 @@
-﻿cf create-user-provided-service mySqlServer -p "{\"username\":\"admin\",\"password\":\"pa55woRD\",\"host\":\"hostNameOrIp\",\"port\":\"1234\",\"name\":\"databaseName\"}"
-cf update-service mySqlServer -t "sqlserver"
