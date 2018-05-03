@@ -1,10 +1,12 @@
 # Lab 5
-Classroom instructor runs script to block access to SQL Server with ASGs
+Recreate SQL Server service with bad IP
 
-Check app for failures in log
+Restage app
+
+Start Troubleshooting
+* Check app for failures in log
 * Check canitconnect
-* Check ASGs applied
-* Ask for help from "platform team"
+* Ask for help from platform team
 * Test app again
 
 Use Kill Switch

@@ -11,4 +11,3 @@
 * [Lab 3](lab3.md) - Route Mapping
 * [Lab 4](lab4.md) - Scale App
 * [Lab 5](lab5.md) - Failures and Troubleshooting
-* [Lab 6](lab6.md) - Splunk Integration with Pivotal Application Service
