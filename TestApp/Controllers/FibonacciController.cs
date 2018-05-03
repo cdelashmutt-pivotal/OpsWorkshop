@@ -30,6 +30,8 @@ namespace TestApp.Controllers
 
         public IActionResult Calculate(int quantity)
         {
+            if (quantity < 0) quantity = 0;
+            if (quantity > 20000) quantity = 20000;
             BigInteger calculated = 0;
             for(int i = 0; i <= quantity; i++)
             {

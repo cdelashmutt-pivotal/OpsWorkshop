@@ -3,7 +3,7 @@ applications:
 - name: TestApp
   random-route: true
   path: bin\Debug\net461\win81-x64\publish
-  memory: 512M
+  memory: 384M
   stack: windows2012R2
   health-check-type: http
   command: .\TestApp
